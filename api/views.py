@@ -1,6 +1,9 @@
-from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
+
+from api.models import ChessPiece
+from api.serializers import ChessPieceSerializer
 
 
-class RegisterPieceView(APIView):
-    def post(self, request):
-        ...
+class RegisterPieceView(ListCreateAPIView):
+    queryset = ChessPiece.objects.all()
+    serializer_class = ChessPieceSerializer
