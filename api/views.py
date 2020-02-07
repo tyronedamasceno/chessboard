@@ -1,9 +1,10 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.mixins import CreateModelMixin
 
 from api.models import ChessPiece
 from api.serializers import ChessPieceSerializer
 
 
-class RegisterPieceView(ListCreateAPIView):
+class RegisterPieceView(CreateModelMixin, GenericViewSet):
     queryset = ChessPiece.objects.all()
     serializer_class = ChessPieceSerializer
