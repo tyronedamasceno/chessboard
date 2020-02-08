@@ -5,6 +5,6 @@ from api.models import ChessPiece
 from api.serializers import ChessPieceSerializer
 
 
-class RegisterPieceView(CreateModelMixin, GenericViewSet):
+class RegisterPieceViewSet(CreateModelMixin, GenericViewSet):
     queryset = ChessPiece.objects.all()
     serializer_class = ChessPieceSerializer
