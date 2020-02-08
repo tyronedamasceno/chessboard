@@ -9,6 +9,7 @@ from api.models import ChessPiece
 REGISTER_PIECE_URL = reverse('pieces-list')
 
 
+
 class ChessboardRegisterPieceTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -52,3 +53,11 @@ class ChessboardRegisterPieceTestCase(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ChessPiece.objects.count(), 1)
+
+
+class ChessBoardSetPiecePositionTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_set_piece_requires_valid_piece_id_and_AN_position(self):
+        ...
