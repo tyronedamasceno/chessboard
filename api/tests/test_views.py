@@ -104,4 +104,16 @@ class ChessBoardSetPiecePositionTestCase(TestCase):
         )
 
     def test_set_piece_successful_returns_list_with_possible_positions(self):
-        ...
+        payload = {
+            'letter': 'A',
+            'number': '1'
+        }
+
+        response = self.client.post(self.default_url, data=payload)
+        expected_possible_positions = [
+            ('A', '1'), ('A', '3'), ('A', '5'), ('B', '4'), ('C', '1'),
+            ('C', '5'), ('D', '2'), ('D', '4'), ('E', '1'), ('E', '3')
+        ]
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, expected_possible_positions)
