@@ -114,6 +114,12 @@ class ChessBoardSetPiecePositionTestCase(TestCase):
             ('A', '1'), ('A', '3'), ('A', '5'), ('B', '4'), ('C', '1'),
             ('C', '5'), ('D', '2'), ('D', '4'), ('E', '1'), ('E', '3')
         ]
+        response_list = [
+            (response_item['letter'], response_item['number'])
+            for response_item in response.data
+        ]
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, expected_possible_positions)
+        self.assertEqual(
+            sorted(response_list), sorted(expected_possible_positions)
+        )
