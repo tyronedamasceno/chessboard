@@ -34,11 +34,4 @@ class SetPiecePositionView(APIView):
             **validated_data
         )
 
-        possible_moves_dict = [
-            {'letter': letter, 'number': number}
-            for letter, number in possible_moves
-        ]
-
-        serializer = AlgebricNotationSerializer(possible_moves_dict, many=True)
-
-        return Response(data=serializer.data)
+        return Response(data=list(possible_moves))
