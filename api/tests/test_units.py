@@ -1,10 +1,23 @@
 from django.test import TestCase
 
-from api.utils import find_knight_possible_moves
+from api.utils import find_knight_possible_moves, sum_char
 
 
 class CharSumTestCase(TestCase):
-    ...
+    def test_sum_char_function(self):
+        test_cases = {
+            ('A', 1): 'B',
+            ('A', 2): 'C',
+            ('D', -1): 'C',
+            ('D', -2): 'B',
+            ('2', 1): '3',
+            ('2', 2): '4',
+            ('5', -1): '4',
+            ('5', -2): '3',
+        }
+
+        for input_pair, expected_output in test_cases.items():
+            self.assertEqual(sum_char(*input_pair), expected_output)
 
 
 class KnightMovementsTestCase(TestCase):
