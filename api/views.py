@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 
+from drf_yasg.utils import swagger_auto_schema
+
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
@@ -17,6 +19,8 @@ class RegisterPieceViewSet(CreateAPIView):
 
 
 class SetPiecePositionView(APIView):
+    @swagger_auto_schema(request_body=AlgebricNotationSerializer,
+                         responses={'200': AlgebricNotationSerializer})
     def post(self, request, piece_id):
         serializer = AlgebricNotationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
