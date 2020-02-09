@@ -1,9 +1,12 @@
 from django.test import TestCase
 
-from api.utils import find_knight_possible_moves, sum_char
+from api.utils import (
+    find_knight_possible_moves, sum_char, calculate_new_letter,
+    calculate_new_number
+)
 
 
-class CharSumTestCase(TestCase):
+class CalculatingNewPositionsTestCase(TestCase):
     def test_sum_char_function(self):
         test_cases = {
             ('A', 1): 'B',
@@ -18,6 +21,16 @@ class CharSumTestCase(TestCase):
 
         for input_pair, expected_output in test_cases.items():
             self.assertEqual(sum_char(*input_pair), expected_output)
+
+    def test_calculate_letter_return_None_if_letter_is_out_of_board(self):
+        test_cases = [('A', -1), ('B', -2), ('G', 2), ('H', 1)]
+        for input_pair in test_cases:
+            self.assertIsNone(calculate_new_letter(*input_pair))
+
+    def test_calculate_number_return_None_if_number_is_out_of_board(self):
+        test_cases = [('1', -1), ('2', -2), ('7', 2), ('8', 1)]
+        for input_pair in test_cases:
+            self.assertIsNone(calculate_new_number(*input_pair))
 
 
 class KnightMovementsTestCase(TestCase):
