@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,7 +13,7 @@ from api.serializers import ChessPieceSerializer, AlgebricNotationSerializer
 from api.utils import find_knight_possible_moves_in_two_turns
 
 
-class RegisterPieceViewSet(CreateAPIView):
+class RegisterPieceViewSet(ListCreateAPIView):
     queryset = ChessPiece.objects.all()
     serializer_class = ChessPieceSerializer
 

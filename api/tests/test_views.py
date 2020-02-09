@@ -7,18 +7,34 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from api.models import ChessPiece
+from api.serializers import ChessPieceSerializer
 
-REGISTER_PIECE_URL = reverse('pieces')
+PIECES_URL = reverse('pieces')
 
 
-class ChessboardRegisterPieceTestCase(TestCase):
+class ChessboardRegisterAndListPieceTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        super(ChessboardRegisterPieceTestCase, cls).setUpClass()
+        super(ChessboardRegisterAndListPieceTestCase, cls).setUpClass()
         cls.client = APIClient()
 
+    def test_chess_pieces_get_endpoint_returns_all_pieces(self):
+        pieces = [
+            ChessPiece.objects.create(color='white', type='knight'),
+            ChessPiece.objects.create(color='black', type='queen'),
+            ChessPiece.objects.create(color='white', type='hook'),
+            ChessPiece.objects.create(color='black', type='bishop'),
+        ]
+
+        response = self.client.get(PIECES_URL)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 4)
+        for piece in pieces:
+            self.assertIn(ChessPieceSerializer(piece).data, response.data)
+
     def test_chess_piece_register_requires_both_type_and_color(self):
-        response = self.client.post(REGISTER_PIECE_URL)
+        response = self.client.post(PIECES_URL)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('type', response.data)
@@ -30,7 +46,7 @@ class ChessboardRegisterPieceTestCase(TestCase):
             'color': 'white'
         }
 
-        response = self.client.post(REGISTER_PIECE_URL, data=payload)
+        response = self.client.post(PIECES_URL, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('type', response.data)
@@ -41,7 +57,7 @@ class ChessboardRegisterPieceTestCase(TestCase):
             'color': 'wrong_color'
         }
 
-        response = self.client.post(REGISTER_PIECE_URL, data=payload)
+        response = self.client.post(PIECES_URL, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('color', response.data)
@@ -52,7 +68,7 @@ class ChessboardRegisterPieceTestCase(TestCase):
             'color': 'white'
         }
 
-        response = self.client.post(REGISTER_PIECE_URL, data=payload)
+        response = self.client.post(PIECES_URL, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(ChessPiece.objects.count(), 1)
