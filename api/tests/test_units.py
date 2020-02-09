@@ -1,14 +1,17 @@
 from django.test import TestCase
 
-from api.utils import find_knight_moves
+from api.utils import find_knight_possible_moves
+
+
+class CharSumTestCase(TestCase):
+    ...
 
 
 class KnightMovementsTestCase(TestCase):
     def test_one_round_knight_movements_from_center_of_board(self):
         letter = 'D'
         number = '4'
-        possibilities = find_knight_moves(letter, number)
-        possibilities = set(possibilities)
+        possibilities = find_knight_possible_moves(letter, number)
 
         expected = set([
             ('B', '3'), ('B', '5'), ('C', '2'), ('C', '6'),
@@ -20,8 +23,7 @@ class KnightMovementsTestCase(TestCase):
     def test_one_round_knight_movements_from_edge_of_board(self):
         letter = 'A'
         number = '5'
-        possibilities = find_knight_moves(letter, number)
-        possibilities = set(possibilities)
+        possibilities = find_knight_possible_moves(letter, number)
 
         expected = set([
             ('B', '3'), ('B', '7'), ('C', '4'), ('C', '6'),
@@ -32,8 +34,7 @@ class KnightMovementsTestCase(TestCase):
     def test_one_round_knight_movements_from_corner_of_board(self):
         letter = 'A'
         number = '1'
-        possibilities = find_knight_moves(letter, number)
-        possibilities = set(possibilities)
+        possibilities = find_knight_possible_moves(letter, number)
 
         expected = set([('B', '3'), ('C', '2')])
 
