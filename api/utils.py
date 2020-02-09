@@ -37,3 +37,15 @@ def find_knight_possible_moves(letter, number):
                 possibilities.add((new_letter, new_number))
 
     return possibilities
+
+
+def find_knight_possible_moves_in_two_turns(letter, number):
+    first_turn_knight_moves = find_knight_possible_moves(letter, number)
+
+    all_second_turn_possibilities = set()
+
+    for letter, number in first_turn_knight_moves:
+        second_turn_moves = find_knight_possible_moves(letter, number)
+        all_second_turn_possibilities.update(second_turn_moves)
+
+    return all_second_turn_possibilities
