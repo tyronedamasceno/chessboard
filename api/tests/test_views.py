@@ -102,3 +102,6 @@ class ChessBoardSetPiecePositionTestCase(TestCase):
         self.assertEqual(
             response.status_code, status.HTTP_422_UNPROCESSABLE_ENTITY
         )
+
+    def test_set_piece_successful_returns_list_with_possible_positions(self):
+        ...
