@@ -1,3 +1,5 @@
+import uuid
+
 from django.test import TestCase
 from django.urls import reverse
 
@@ -70,3 +72,18 @@ class ChessBoardSetPiecePositionTestCase(TestCase):
         response = self.client.post(self.default_url)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('letter', response.data)
+        self.assertIn('number', response.data)
+
+    def test_set_piece_with_invalid_piece_id_returns_404(self):
+        wrong_id = uuid.uuid4()
+        url_with_wrong_id = reverse('set-position', args=[wrong_id])
+
+        payload = {
+            'letter': 'A',
+            'number': '1'
+        }
+
+        response = self.client.post(url_with_wrong_id, data=payload)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

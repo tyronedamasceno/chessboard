@@ -1,13 +1,12 @@
-from django.urls import path, include
+from django.urls import path
 
-from rest_framework import routers
-
-from api.views import RegisterPieceViewSet
-
-router = routers.DefaultRouter()
-router.register('pieces', RegisterPieceViewSet, basename='pieces')
+from api.views import RegisterPieceViewSet, SetPiecePositionView
 
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('pieces', RegisterPieceViewSet.as_view(), name='pieces'),
+    path(
+        'pieces/<uuid:piece_id>/position', SetPiecePositionView.as_view(),
+        name='set-position'
+    )
 ]
