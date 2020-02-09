@@ -87,3 +87,18 @@ class ChessBoardSetPiecePositionTestCase(TestCase):
         response = self.client.post(url_with_wrong_id, data=payload)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_set_piece_with_piece_different_from_knight_return_422(self):
+        hook = ChessPiece.objects.create(type='hook', color='white')
+        url_with_hook_id = reverse('set-position', args=[hook.id])
+
+        payload = {
+            'letter': 'A',
+            'number': '1'
+        }
+
+        response = self.client.post(url_with_hook_id, data=payload)
+
+        self.assertEqual(
+            response.status_code, status.HTTP_422_UNPROCESSABLE_ENTITY
+        )
