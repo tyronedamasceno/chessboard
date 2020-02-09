@@ -116,4 +116,4 @@ class ChessBoardSetPiecePositionTestCase(TestCase):
         ]
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(sorted(response.data), sorted(expected_response))
+        self.assertEqual(response.data, expected_response)

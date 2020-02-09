@@ -34,4 +34,4 @@ class SetPiecePositionView(APIView):
             **validated_data
         )
 
-        return Response(data=list(possible_moves))
+        return Response(data=sorted(list(possible_moves)))
