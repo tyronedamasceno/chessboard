@@ -6,13 +6,14 @@ from rest_framework.test import APIClient
 
 from api.models import ChessPiece
 
-REGISTER_PIECE_URL = reverse('pieces-list')
-
+REGISTER_PIECE_URL = reverse('pieces')
 
 
 class ChessboardRegisterPieceTestCase(TestCase):
-    def setUp(self):
-        self.client = APIClient()
+    @classmethod
+    def setUpClass(cls):
+        super(ChessboardRegisterPieceTestCase, cls).setUpClass()
+        cls.client = APIClient()
 
     def test_chess_piece_register_requires_both_type_and_color(self):
         response = self.client.post(REGISTER_PIECE_URL)
@@ -56,8 +57,16 @@ class ChessboardRegisterPieceTestCase(TestCase):
 
 
 class ChessBoardSetPiecePositionTestCase(TestCase):
-    def setUp(self):
-        self.client = APIClient()
+    @classmethod
+    def setUpClass(cls):
+        super(ChessBoardSetPiecePositionTestCase, cls).setUpClass()
+        cls.client = APIClient()
+        cls.default_piece = ChessPiece.objects.create(
+            type='knight', color='white'
+        )
+        cls.default_url = reverse('set-position', args=[cls.default_piece.id])
 
     def test_set_piece_requires_valid_piece_id_and_AN_position(self):
-        ...
+        response = self.client.post(self.default_url)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
