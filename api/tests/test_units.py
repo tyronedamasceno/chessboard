@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from api.utils import (
     find_knight_possible_moves, sum_char, calculate_new_letter,
-    calculate_new_number
+    calculate_new_number, find_knight_possible_moves_in_two_turns
 )
 
 
@@ -33,8 +33,8 @@ class CalculatingNewPositionsTestCase(TestCase):
             self.assertIsNone(calculate_new_number(*input_pair))
 
 
-class KnightMovementsTestCase(TestCase):
-    def test_one_round_knight_movements_from_center_of_board(self):
+class OneTurnKnightFindPossibleMovementsTestCase(TestCase):
+    def test_one_turn_knight_movements_from_center_of_board(self):
         letter = 'D'
         number = '4'
         possibilities = find_knight_possible_moves(letter, number)
@@ -46,7 +46,7 @@ class KnightMovementsTestCase(TestCase):
 
         self.assertEqual(possibilities, expected)
 
-    def test_one_round_knight_movements_from_edge_of_board(self):
+    def test_one_turn_knight_movements_from_edge_of_board(self):
         letter = 'A'
         number = '5'
         possibilities = find_knight_possible_moves(letter, number)
@@ -57,11 +57,41 @@ class KnightMovementsTestCase(TestCase):
 
         self.assertEqual(possibilities, expected)
 
-    def test_one_round_knight_movements_from_corner_of_board(self):
+    def test_one_turn_knight_movements_from_corner_of_board(self):
         letter = 'A'
         number = '1'
         possibilities = find_knight_possible_moves(letter, number)
 
         expected = set([('B', '3'), ('C', '2')])
+
+        self.assertEqual(possibilities, expected)
+
+
+class TwoTurnsKnightFindPossibleMovementsTestCase(TestCase):
+    def test_find_knight_moves_in_two_turns_from_corner_of_board(self):
+        letter = 'A'
+        number = '1'
+        possibilities = find_knight_possible_moves_in_two_turns(letter, number)
+
+        expected = set([
+            ('A', '1'), ('A', '3'), ('A', '5'), ('B', '4'), ('C', '1'),
+            ('C', '5'), ('D', '2'), ('D', '4'), ('E', '1'), ('E', '3')
+        ])
+
+        self.assertEqual(possibilities, expected)
+
+    def test_find_knight_moves_in_two_turns_from_center_of_board(self):
+        letter = 'D'
+        number = '4'
+        possibilities = find_knight_possible_moves_in_two_turns(letter, number)
+
+        expected = set([
+            ('A', '1'), ('A', '3'), ('A', '5'), ('A', '7'), ('B', '4'),
+            ('B', '8'), ('C', '1'), ('C', '3'), ('C', '5'), ('C', '7'),
+            ('D', '2'), ('D', '4'), ('D', '6'), ('D', '8'), ('E', '1'),
+            ('E', '3'), ('E', '5'), ('E', '7'), ('F', '4'), ('F', '8'),
+            ('G', '1'), ('G', '3'), ('G', '5'), ('G', '7'), ('H', '2'),
+            ('H', '4'), ('H', '6')
+        ])
 
         self.assertEqual(possibilities, expected)
