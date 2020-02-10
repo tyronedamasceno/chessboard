@@ -21,3 +21,17 @@ You may want have a local superuser, so run the command below and follow instruc
 `$ docker-compose run --rm web python manage.py createsuperuser`
 
 You can use the provided credentials to access the admin interface on `https://localhost:8000/admin/`.
+
+## Documentation && try it out!
+
+You can find API swagger documentation and do some tests `https://localhost:8000/swagger/`
+
+Also, you can run unit automated tests running the following command
+
+`$ docker-compose run --rm web python manage.py test`
+
+## Contact
+
+I hope you enjoy it.
+
+**Feel free** to contact me any time on telegram *@tyronedamasceno* or *tyronedamasceno@gmail.com*
